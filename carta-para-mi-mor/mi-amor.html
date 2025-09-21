@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Para ti, mi mor</title>
+    <script type="text/javascript">
+        var gk_isXlsx = false;
+        var gk_xlsxFileLookup = {};
+        var gk_fileData = {};
+        function filledCell(cell) {
+          return cell !== '' && cell != null;
+        }
+        function loadFileData(filename) {
+        if (gk_isXlsx && gk_xlsxFileLookup[filename]) {
+            try {
+                var workbook = XLSX.read(gk_fileData[filename], { type: 'base64' });
+                var firstSheetName = workbook.SheetNames[0];
+                var worksheet = workbook.Sheets[firstSheetName];
+
+                // Convert sheet to JSON to filter blank rows
+                var jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1, blankrows: false, defval: '' });
+                // Filter out blank rows (rows where all cells are empty, null, or undefined)
+                var filteredData = jsonData.filter(row => row.some(filledCell));
+
+                // Heuristic to find the header row by ignoring rows with fewer filled cells than the next row
+                var headerRowIndex = filteredData.findIndex((row, index) =>
+                  row.filter(filledCell).length >= filteredData[index + 1]?.filter(filledCell).length
+                );
+                // Fallback
+                if (headerRowIndex === -1 || headerRowIndex > 25) {
+                  headerRowIndex = 0;
+                }
+
+                // Convert filtered JSON back to CSV
+                var csv = XLSX.utils.aoa_to_sheet(filteredData.slice(headerRowIndex)); // Create a new sheet from filtered array of arrays
+                csv = XLSX.utils.sheet_to_csv(csv, { header: 1 });
+                return csv;
+            } catch (e) {
+                console.error(e);
+                return "";
+            }
+        }
+        return gk_fileData[filename] || "";
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #ffebee; /* Rosa suave romántico */
+            color: #333;
+            text-align: center;
+            padding: 20px;
+            margin: 0;
+        }
+        .carta {
+            background-color: #fff;
+            border: 2px solid #f48fb1;
+            border-radius: 15px;
+            padding: 30px;
+            margin: 20px auto;
+            max-width: 600px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            animation: fadeIn 2s ease-in;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .momentos {
+            margin-top: 50px;
+        }
+        .momento {
+            background-color: #fff;
+            border: 1px solid #f8bbd9;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px auto;
+            max-width: 600px; /* Increased from 500px to 600px */
+            display: flex;
+            align-items: center;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .momento img {
+            width: 150px;
+            height: auto;
+            border-radius: 10px;
+            margin-right: 20px;
+        }
+        .momento h3 {
+            color: #c2185b;
+        }
+        h1 {
+            color: #ad1457;
+        }
+    </style>
+</head>
+<body>
+    <div class="carta">
+        <h1>Para ti mi mor❤️❤️</h1>
+        <p> Mi niña, no se como demostrate todo lo quiero decirte y lo mucho que te amo, esos dias que te vi por primera vez fueron inolvidables, aun recuerdo el primer dia que nos conocimos es como si fuera ayer, esa sonrisa, ese cariño que me diste desde el primer dia que hablamos, la unica que me hizo ver el mundo de una forma distinta y la que me hizo volver a confiar en las personas y ser mejor persona, la veces que salimos andamos y paseamos juntos son de lo mas hermoso, espero que esa confianza ese cariño nunca se acabe, aún tengo muchas cosas pensadas que quiero hacer contigo como viajar, e ir a conocer a mi familia de Perú, pasear por donde quieras pero siempre contigo, esto solo es el comienzo de nuestra historia juntos, te amo mi niña, mi mor, mi Reina, mi mujer, mi todo. ❤️❤️</p>
+        <p style="font-style: italic; color: #666;">Te amo, Júlia Fuentes Buj ❤️</p>
+    </div>
+
+    <div class="momentos">
+        <h2>Nuestros momentos inolvidables</h2>
+        
+        <div class="momento">
+            <img src="1.jpeg" alt="Foto en el cine">
+            <div>
+                <h3>Momento 1: Foto en el cine</h3>
+                <p>Ese dia fuimos a ver el cine una pelicula de terror y sabiendo que no soy tan fan del terror, ese dia me gusto por que es la primera vez que voy al ciner ver terror. marco un momento inolvidables.</p>
+            </div>
+        </div>
+        
+        <div class="momento">
+            <img src="2.jpeg" alt="Noche de Netflix y vino">
+            <div>
+                <h3>Momento 2: Noche de Netflix y vino</h3>
+                <p> Ese dia fue el mejor de todo, ya que ese dia fue el primer dia de enamorados ya que un dia antes de me dijiste para estar, y que mejor momento que ver una pelicula junto a ti, con un calido abrazo y beso, solo nosotros dos.</p>
+            </div>
+        </div>
+        
+        <div class="momento">
+            <img src="3.jpeg" alt="Excursión en las montañas">
+            <div>
+                <h3>Momento 3: Excursión en las montañas</h3>
+                <p> Ese dia lo cuerdo muy claro, ese dia fuimos al monasterio un dia despues del susto que nos dio por subirte a un lugar alto y no poder bajar, apesar de todo volvimos a ir para tomarnos unas fotos juntos para el recuerdo, del dia que casi nos castigan por ir a un lugar peligroso, aun asi fue el mejor de todos.</p>
+            </div>
+        </div>
+        
+        <div class="momento">
+            <img src="4.jpeg" alt="Descanso en la roca">
+            <div>
+                <h3>Momento 4: Descanso en la roca</h3>
+                <p>Después de caminar, nos tumbamos en una roca para tomar un selfie. Tu gesto divertido y el paisaje natural nos recuerdan lo bien que lo pasamos explorando juntos ese día.</p>
+            </div>
+        </div>
+        
+        <div class="momento">
+            <img src="5.jpeg" alt="Paseo en la ciudad">
+            <div>
+                <h3>Momento 5: Paseo en la ciudad</h3>
+                <p>Un paseo nocturno por la ciudad, capturado en un selfie espontáneo. Estábamos felices, explorando las calles y disfrutando de un momento tranquilo juntos.</p>
+            </div>
+        </div>
+        
+        <div class="momento">
+            <img src="6.jpeg" alt="Selfie en el ascensor">
+            <div>
+                <h3>Momento 6: Selfie en el ascensor</h3>
+                <p>Es la primera vez que me compro una ropa igual y nos vestimos juntos, y mas si es de la serie que nos gusta ver juntos, fue un dia incrible, y nos fuimos a pasear juntos.</p>
+            </div>
+        </div>
+        
+        <div class="momento">
+            <img src="7.jpeg" alt="Paseo por la playa">
+            <div>
+                <h3>Momento 7: Paseo por la playa</h3>
+                <p>Un día soleado caminando por la playa, con las palmeras y el mar de fondo. Nos sacamos esta foto haciendo gestos divertidos, disfrutando del sol y el ambiente relajado.</p>
+            </div>
+        </div>
+        
+        <div class="momento">
+            <img src="8.jpeg" alt="Beso en el centro comercial">
+            <div>
+                <h3>Momento 8: Beso en el centro comercial</h3>
+                <p>Un instante mágico sentado junto a la fuente en The Style Outlets. Es nuestra primera foto de pareja, y una de muchas a partir de ahora, para capturar esos momentos felices que pasamos juntos</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
